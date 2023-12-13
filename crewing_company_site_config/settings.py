@@ -21,7 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default="django-insecure-mxfam@dl6itr9iauq$m(9$430!se$^(c92ud6+99h^*h)*qc!9")
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    default="django-insecure-mxfam@dl6itr9iauq$m(9$430!se$^(c92ud6+99h^*h)*qc!9",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
@@ -37,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third-party
     "debug_toolbar",
     "crewing",
@@ -63,7 +65,7 @@ ROOT_URLCONF = "crewing_company_site_config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -71,7 +73,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-
                 # Custom
                 "crewing.context_processors.get_interesting_fact",
             ],
@@ -80,7 +81,7 @@ TEMPLATES = [
 ]
 
 TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, "templates"),
 ]
 
 WSGI_APPLICATION = "crewing_company_site_config.wsgi.application"
@@ -97,7 +98,7 @@ DATABASES = {
 }
 
 db_from_end = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_end)
+DATABASES["default"].update(db_from_end)
 
 # DATABASE_URL = "postgres://hsylqltw:qsm9HwUbwuK3MMJ295R45wQ-uq-ivy6x@cornelius.db.elephantsql.com/hsylqltw"
 

@@ -9,7 +9,8 @@ from crewing.models import Vessel, Company, VesselType, Position, Crew
 class CrewingTest(TestCase):
     def setUp(self) -> None:
         self.user = Crew.objects.create_user(
-            username="Test username", password="12345")
+            username="Test username", password="12345"
+        )
         self.client.login(username="Test username", password="12345")
 
         self.vessel_type = VesselType.objects.create(
@@ -33,20 +34,30 @@ class CrewingTest(TestCase):
         )
 
     def test_vessel_search_form(self):
-        response = self.client.get(reverse("crewing:vessel-list"), {"vessel": "Test Vessel"})
-        self.assertEqual(response.context["vessel_list"][0].name, "Test Vessel")
+        response = self.client.get(
+            reverse("crewing:vessel-list"), {"vessel": "Test Vessel"}
+        )
+        self.assertEqual(
+            response.context["vessel_list"][0].name, "Test Vessel"
+        )
 
     def test_user_leaving_soon(self):
-        self.user.date_of_leaving = datetime.datetime.now() - datetime.timedelta(days=30)
+        self.user.date_of_leaving = (
+            datetime.datetime.now() - datetime.timedelta(days=30)
+        )
         self.user.vessel = self.vessel
         self.user.save()
 
         response = self.client.get(reverse("crewing:vessel-list"))
 
-        self.assertEqual(response.context["vessel_list"][0].name, "Test Vessel")
+        self.assertEqual(
+            response.context["vessel_list"][0].name, "Test Vessel"
+        )
 
     def test_sailors_leaving_soon_count(self):
-        self.user.date_of_leaving = datetime.datetime.now() - datetime.timedelta(days=30)
+        self.user.date_of_leaving = (
+            datetime.datetime.now() - datetime.timedelta(days=30)
+        )
         self.user.vessel = self.vessel
         self.user.save()
 
@@ -56,7 +67,9 @@ class CrewingTest(TestCase):
         self.assertEqual(sailors_leaving_soon.count(), 1)
 
     def test_sailors_leaving_soon_username(self):
-        self.user.date_of_leaving = datetime.datetime.now() - datetime.timedelta(days=30)
+        self.user.date_of_leaving = (
+            datetime.datetime.now() - datetime.timedelta(days=30)
+        )
         self.user.vessel = self.vessel
         self.user.save()
 

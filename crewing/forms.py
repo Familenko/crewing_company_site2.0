@@ -5,7 +5,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from crewing.models import VesselType, Vessel, Company, Position
-from crewing.validators import validate_IMO_number, validate_name, validate_date_of_joining
+from crewing.validators import (
+    validate_IMO_number,
+    validate_name,
+    validate_date_of_joining,
+)
 
 
 class CrewCreationForm(UserCreationForm):
@@ -63,7 +67,7 @@ class CrewSearchForm(forms.Form):
         "mike, MIKE, MI",
         "alex, ALEX, a",
         "bob, BOB, bo",
-        "alice, ALICE, ALI"
+        "alice, ALICE, ALI",
     ]
 
     example_position = [
@@ -71,7 +75,7 @@ class CrewSearchForm(forms.Form):
         "chief, CHIEF, ch",
         "mate, MATE, ma",
         "engineer, ENGINEER, en",
-        "cook, COOK, co"
+        "cook, COOK, co",
     ]
 
     example_last_name = [
@@ -79,7 +83,7 @@ class CrewSearchForm(forms.Form):
         "mike, MIKE, MI",
         "alex, ALEX, a",
         "bob, BOB, bo",
-        "alice, ALICE, ALI"
+        "alice, ALICE, ALI",
     ]
 
     example_vessel = [
@@ -90,10 +94,18 @@ class CrewSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(CrewSearchForm, self).__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["placeholder"] = f"user: {random.choice(self.example_user)}"
-        self.fields["position"].widget.attrs["placeholder"] = f"position: {random.choice(self.example_position)}"
-        self.fields["last_name"].widget.attrs["placeholder"] = f"last_name: {random.choice(self.example_last_name)}"
-        self.fields["vessel"].widget.attrs["placeholder"] = f"vessel: {random.choice(self.example_vessel)}"
+        self.fields["username"].widget.attrs[
+            "placeholder"
+        ] = f"user: {random.choice(self.example_user)}"
+        self.fields["position"].widget.attrs[
+            "placeholder"
+        ] = f"position: {random.choice(self.example_position)}"
+        self.fields["last_name"].widget.attrs[
+            "placeholder"
+        ] = f"last_name: {random.choice(self.example_last_name)}"
+        self.fields["vessel"].widget.attrs[
+            "placeholder"
+        ] = f"vessel: {random.choice(self.example_vessel)}"
 
     username = forms.CharField(
         max_length=255,
@@ -150,7 +162,9 @@ class VesselSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(VesselSearchForm, self).__init__(*args, **kwargs)
-        self.fields["name"].widget.attrs["placeholder"] = f"name: {random.choice(self.example_name)}"
+        self.fields["name"].widget.attrs[
+            "placeholder"
+        ] = f"name: {random.choice(self.example_name)}"
 
     name = forms.CharField(
         max_length=255,

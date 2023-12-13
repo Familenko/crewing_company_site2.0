@@ -17,13 +17,12 @@ from crewing.forms import (
     CrewCreationForm,
     CrewSearchForm,
     CrewUpdateForm,
-    VesselSearchForm
+    VesselSearchForm,
 )
 
 
 @login_required
 def index(request):
-
     num_sailors = Crew.objects.count()
     num_vessels = Vessel.objects.count()
     num_companies = Company.objects.count()
@@ -52,7 +51,9 @@ def toggle_assign_to_vessel(request, pk):
         sailor.vessel = vessel
     sailor.save()
 
-    return HttpResponseRedirect(reverse_lazy("crewing:vessel-detail", args=[pk]))
+    return HttpResponseRedirect(
+        reverse_lazy("crewing:vessel-detail", args=[pk])
+    )
 
 
 class CrewListView(LoginRequiredMixin, generic.ListView):
@@ -73,12 +74,12 @@ class CrewListView(LoginRequiredMixin, generic.ListView):
                 "position": placeholder_position,
                 "last_name": placeholder_last_name,
                 "vessel": placeholder_vessel,
-            })
+            }
+        )
         return context
 
     def get_queryset(self):
-        queryset = Crew.objects.all(
-        ).select_related('position', 'vessel')
+        queryset = Crew.objects.select_related("position", "vessel")
 
         search_form = CrewSearchForm(self.request.GET)
         if search_form.is_valid():
@@ -97,7 +98,9 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
 
         one_month_ago = datetime.now() - timedelta(days=30)
-        sailors_leaving_soon = Crew.objects.filter(date_of_leaving__lte=one_month_ago)
+        sailors_leaving_soon = Crew.objects.filter(
+            date_of_leaving__lte=one_month_ago
+        )
 
         context["sailors_leaving_soon"] = sailors_leaving_soon
 
@@ -105,13 +108,15 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
         context["search_form"] = VesselSearchForm(
             initial={
                 "vessel": placeholder_vessel,
-            })
+            }
+        )
 
         return context
 
     def get_queryset(self):
-        queryset = Vessel.objects.all(
-        ).select_related('vessel_type', 'company')
+        queryset = Vessel.objects.select_related(
+            "vessel_type", "company"
+        )
 
         search_form = VesselSearchForm(self.request.GET)
         if search_form.is_valid():
@@ -129,7 +134,7 @@ class CompanyListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        companies = context['company_list']
+        companies = context["company_list"]
 
         companies_vessels_count = {}
         companies_workers_count = {}
@@ -142,8 +147,8 @@ class CompanyListView(LoginRequiredMixin, generic.ListView):
             companies_vessels_count[company.id] = vessels.count()
             companies_workers_count[company.id] = workers_count
 
-        context['vessels_count'] = companies_vessels_count
-        context['workers_count'] = companies_workers_count
+        context["vessels_count"] = companies_vessels_count
+        context["workers_count"] = companies_workers_count
 
         return context
 
@@ -153,8 +158,8 @@ class VesselTypeListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "vessel_type_list"
     template_name = "crewing/vessel_type/list.html"
     paginate_by = 5
-    queryset = VesselType.objects.all().prefetch_related(
-        Prefetch('vessels', queryset=Vessel.objects.all().order_by('name'))
+    queryset = VesselType.objects.prefetch_related(
+        Prefetch("vessels", queryset=Vessel.objects.all().order_by("name"))
     )
 
 
@@ -167,7 +172,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        positions = context['position_list']
+        positions = context["position_list"]
 
         positions_workers_count = {}
 
@@ -176,7 +181,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
 
             positions_workers_count[position.id] = workers_count
 
-        context['workers_count'] = positions_workers_count
+        context["workers_count"] = positions_workers_count
 
         return context
 
@@ -186,7 +191,7 @@ class PositionDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "crewing/position/detail.html"
 
     def get_queryset(self):
-        return Position.objects.prefetch_related('sailors')
+        return Position.objects.prefetch_related("sailors")
 
 
 class CrewDetailView(LoginRequiredMixin, generic.DetailView):
@@ -194,7 +199,9 @@ class CrewDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "crewing/crew/detail.html"
 
     def get_queryset(self):
-        return Crew.objects.select_related('position', 'vessel').prefetch_related('vessel_type')
+        return Crew.objects.select_related(
+            "position", "vessel"
+        ).prefetch_related("vessel_type")
 
 
 class VesselDetailView(LoginRequiredMixin, generic.DetailView):
@@ -202,7 +209,7 @@ class VesselDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "crewing/vessel/detail.html"
 
     def get_queryset(self):
-        return Vessel.objects.select_related('vessel_type', 'company')
+        return Vessel.objects.select_related("vessel_type", "company")
 
 
 class CompanyDetailView(LoginRequiredMixin, generic.DetailView):

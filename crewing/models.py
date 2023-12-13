@@ -7,13 +7,13 @@ class VesselType(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = "vessel_type"
         verbose_name_plural = "vessel_types"
         ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 
 class Position(models.Model):
@@ -33,13 +33,25 @@ class Position(models.Model):
 
 
 class Crew(AbstractUser):
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='sailors', null=True, blank=True)
+    position = models.ForeignKey(
+        Position,
+        on_delete=models.CASCADE,
+        related_name="sailors",
+        null=True,
+        blank=True,
+    )
     salary = models.IntegerField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_joining = models.DateField(null=True, blank=True)
     date_of_leaving = models.DateField(null=True, blank=True)
-    vessel_type = models.ManyToManyField(VesselType, related_name='sailors')
-    vessel = models.ForeignKey('Vessel', on_delete=models.DO_NOTHING, related_name='sailors', null=True, blank=True)
+    vessel_type = models.ManyToManyField(VesselType, related_name="sailors")
+    vessel = models.ForeignKey(
+        "Vessel",
+        on_delete=models.DO_NOTHING,
+        related_name="sailors",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "sailors"
@@ -56,8 +68,12 @@ class Crew(AbstractUser):
 class Vessel(models.Model):
     name = models.CharField(max_length=50)
     IMO_number = models.IntegerField(unique=True)
-    vessel_type = models.ForeignKey(VesselType, on_delete=models.CASCADE, related_name='vessels')
-    company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='vessels')
+    vessel_type = models.ForeignKey(
+        VesselType, on_delete=models.CASCADE, related_name="vessels"
+    )
+    company = models.ForeignKey(
+        "Company", on_delete=models.CASCADE, related_name="vessels"
+    )
 
     class Meta:
         verbose_name_plural = "vessels"

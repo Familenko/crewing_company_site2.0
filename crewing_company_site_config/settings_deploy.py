@@ -37,14 +37,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third-party
     "debug_toolbar",
     "crewing",
     "crispy_forms",
     "crewing.templatetags.custom_filter",
     "crispy_bootstrap4",
-
 ]
 
 MIDDLEWARE = [
@@ -64,7 +62,7 @@ ROOT_URLCONF = "crewing_company_site_config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -72,7 +70,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-
                 # Custom
                 "crewing.context_processors.get_interesting_fact",
             ],
@@ -81,7 +78,7 @@ TEMPLATES = [
 ]
 
 TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, "templates"),
 ]
 
 WSGI_APPLICATION = "crewing_company_site_config.wsgi.application"
@@ -90,15 +87,8 @@ WSGI_APPLICATION = "crewing_company_site_config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
 db_from_end = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_end)
+DATABASES["default"].update(db_from_end)
 
 # DATABASE_URL = "postgres://hsylqltw:qsm9HwUbwuK3MMJ295R45wQ-uq-ivy6x@cornelius.db.elephantsql.com/hsylqltw"
 
