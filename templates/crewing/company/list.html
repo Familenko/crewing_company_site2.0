@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load custom_filter %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <div class="container mt-5">
+  <h1 class="display-4 mb-4">
+    COMPANIES
+  </h1>
+    <div class="container mt-5">
+      {% if company_list %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Description</th>
+                <th>Amount of Vessels</th>
+                <th>Amount of Workers</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for company in company_list %}
+                <tr>
+                  <td>{{ company.id }}</td>
+                  <td><a href="{{ company.get_absolute_url }}">{{ company.name }}</a></td>
+                  <td>{{ company.country }}</td>
+                  <td style="width: 400px; text-align: center;">{{ company.description|truncatewords:20 }}</td>
+                  <td style = "width: 200px; text-align: center;">{{ vessels_count|default:"N/A"|get_item:company.id }}</td>
+                  <td style = "width: 200px; text-align: center;">{{ workers_count|default:"N/A"|get_item:company.id }}</td>
+                </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="lead">There are no companies in the service.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
