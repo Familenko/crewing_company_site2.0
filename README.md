@@ -27,12 +27,19 @@ https://creqing-company-site.onrender.com/
 ### Set up database
 
 - Use the following command to load prepared data from fixture to test and debug this code:
+
+`python manage.py migrate`
   
 `python manage.py loaddata crewing_db_data.json`
 
 - After loading data from fixture you can use following superuser (or create another one by yourself):
   - Login: `lesha`
   - Password: `Gugaga9898`
+
+### Run the server
+
+- Use the following command to run the server:
+- `python manage.py runserver`
 
 # Site description
 
